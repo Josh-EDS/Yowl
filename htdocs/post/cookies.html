@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #cookies {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cookies</h1>
+    <div id="cookies"></div>
+
+    <script>
+        function displayCookies() {
+            const cookiesDiv = document.getElementById('cookies');
+            const cookies = document.cookie;
+            if (cookies) {
+                const cookiesArray = cookies.split(';');
+                const ul = document.createElement('ul');
+                cookiesDiv.appendChild(ul);
+                cookiesArray.forEach(cookie => {
+                    const li = document.createElement('li');
+                    const textNode = document.createTextNode(cookie);
+                    li.appendChild(textNode);
+                    ul.appendChild(li);
+                });
+            } else {
+                const textNode = document.createTextNode('No cookies found.');
+                cookiesDiv.appendChild(textNode);
+            }
+        }
+
+        displayCookies();
+    </script>
+</body>
+</html>

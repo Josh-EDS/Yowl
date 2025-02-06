@@ -1,0 +1,5 @@
+ErrorDocument 400 https://yowl.ct.ws/error.html
+ErrorDocument 401 https://yowl.ct.ws/error.html
+ErrorDocument 403 https://yowl.ct.ws/error.html
+ErrorDocument 404 https://yowl.ct.ws/error.html
+ErrorDocument 503 https://yowl.ct.ws/error.html

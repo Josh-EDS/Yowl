@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="Zephir" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Yowl - Your Online World Link"/>
+	<meta property="og:title" content="Yowl - Your Online World Link" />
+	<meta property="og:description" content="Yowl - Your Online World Link" />
+	<meta property="og:image" content="social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Yowl - Your Online World Link</title>
+	
+	<!-- PWA Version -->
+	<link rel="manifest" href="manifest.json">
+    
+    <!-- Stylesheets -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+	<link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+</head>   
+<body class="bg-gradient-2">
+<div class="page-wraper header-fixed">
+    
+	<!-- Preloader -->
+	<div id="preloader">
+		<div class="spinner"></div>
+	</div>
+    <!-- Preloader end-->
+    
+	
+    <!-- Header -->
+	<header class="header">
+		<div class="container">
+			<div class="main-bar">
+				<div class="left-content">
+					<h4 class="title mb-0">Home</h4>
+				</div>
+				<div class="mid-content">
+				</div>
+				<div class="right-content d-flex align-items-center">
+					<a href="reels.html" class="bell-icon me-2">
+						<svg id="Layer_3" height="24" viewBox="0 0 22 22" width="24" xmlns="http://www.w3.org/2000/svg" data-name="Layer 3"><g><path d="m-.0132 8v9a5.0018 5.0018 0 0 0 5 5h12a5.0018 5.0018 0 0 0 5-5v-9zm14.49 6.87-6 3.38a.9472.9472 0 0 1 -.49.13 1.0145 1.0145 0 0 1 -1-1v-6.76a1.0039 1.0039 0 0 1 1.49-.87l6 3.38a.9971.9971 0 0 1 0 1.74z"/><path d="m6.0968 6h-6.11v-1a4.9909 4.9909 0 0 1 2.27-4.19l1.19 1.62z"/><path d="m15.1068 6h-6.52l-2.96-4-1.44-1.93a4.2509 4.2509 0 0 1 .8-.07h5.72l1.46 2z"/><path d="m21.9868 5v1h-4.4l-2.95-4-1.47-2h3.82a5.0018 5.0018 0 0 1 5 5z"/></g></svg>
+					</a>
+					<a href="notification.html" class="bell-icon me-2">
+						<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M6.99863 5.94146C8.25877 4.69837 9.96789 4 11.75 4C13.5321 4 15.2412 4.69837 16.5014 5.94146C17.7615 7.18456 18.4694 8.87057 18.4694 10.6286C18.4694 13.6602 19.1264 15.5253 19.7182 16.5956C20.0157 17.1336 20.3031 17.4826 20.498 17.6854C20.5957 17.7872 20.6709 17.853 20.7136 17.8881C20.7334 17.9044 20.7462 17.9141 20.751 17.9176C21.1638 18.1996 21.3462 18.7128 21.2002 19.1883C21.0523 19.6703 20.6019 20 20.0914 20H3.40862C2.89809 20 2.44774 19.6703 2.2998 19.1883C2.15385 18.7128 2.33617 18.1996 2.74898 17.9176C2.75364 17.9144 2.75833 17.9113 2.76305 17.9082L2.7604 17.9099L2.7558 17.913L2.74949 17.9173C2.74783 17.9185 2.74697 17.9191 2.74688 17.9192C2.74681 17.9192 2.7472 17.9189 2.74803 17.9183C2.7483 17.9181 2.74862 17.9179 2.74898 17.9176C2.75375 17.9141 2.76657 17.9044 2.78642 17.8881C2.82906 17.853 2.90431 17.7872 3.00203 17.6854C3.19687 17.4826 3.48428 17.1336 3.78178 16.5956C4.37359 15.5253 5.03055 13.6602 5.03055 10.6286C5.03055 8.87056 5.73849 7.18456 6.99863 5.94146ZM2.76305 17.9082C2.76307 17.9082 2.76308 17.9081 2.7631 17.9081L2.76306 17.9082L2.76305 17.9082ZM17.6975 17.7143C17.693 17.7063 17.6886 17.6982 17.6841 17.6901C16.8857 16.2461 16.1524 13.997 16.1524 10.6286C16.1524 9.47677 15.6886 8.37215 14.863 7.55771C14.0374 6.74326 12.9176 6.28571 11.75 6.28571C10.5824 6.28571 9.46264 6.74326 8.63703 7.55771C7.81143 8.37215 7.3476 9.47677 7.3476 10.6286C7.3476 13.997 6.61433 16.2461 5.81591 17.6901C5.81144 17.6982 5.80697 17.7063 5.8025 17.7143H17.6975ZM2.7645 17.9072C2.7645 17.9072 2.7645 17.9072 2.76449 17.9072L2.76425 17.9074C2.76434 17.9073 2.76442 17.9073 2.7645 17.9072Z" fill="#FE9063"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M8.87713 21.1933C9.47825 20.797 10.2482 21.0296 10.5969 21.7127C10.6633 21.8427 10.7586 21.9506 10.8732 22.0256C10.9878 22.1006 11.1177 22.1401 11.25 22.1401C11.3823 22.1401 11.5122 22.1006 11.6268 22.0256C11.7414 21.9506 11.8367 21.8427 11.9031 21.7127C12.2518 21.0296 13.0217 20.797 13.6229 21.1933C14.224 21.5895 14.4286 22.4646 14.0799 23.1477C13.7923 23.7111 13.3795 24.1787 12.8829 24.5038C12.3862 24.8289 11.8231 25 11.25 25C10.6769 25 10.1138 24.8289 9.61711 24.5038C9.12045 24.1787 8.70767 23.7111 8.42008 23.1477C8.07138 22.4646 8.27601 21.5895 8.87713 21.1933Z" fill="#FE9063"/>
+							<circle cx="18" cy="6" r="5" fill="url(#paint0_linear_8_1045)" stroke="#FEEADF" stroke-width="2"/>
+							<defs>
+							<linearGradient id="paint0_linear_8_1045" x1="15.8934" y1="-5.17647" x2="23.3834" y2="-3.59332" gradientUnits="userSpaceOnUse">
+							<stop stop-color="#704FFE"/>
+							<stop offset="1" stop-color="#523CAD"/>
+							</linearGradient>
+							</defs>
+						</svg>
+					</a>
+					<a href="javascript:void(0);" class="bell-icon menu-toggler">
+						<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M5,11h4c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2H5C3.9,3,3,3.9,3,5v4C3,10.1,3.9,11,5,11z"/><path d="M5,21h4c1.1,0,2-0.9,2-2v-4c0-1.1-0.9-2-2-2H5c-1.1,0-2,0.9-2,2v4C3,20.1,3.9,21,5,21z"/><path d="M13,5v4c0,1.1,0.9,2,2,2h4c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2h-4C13.9,3,13,3.9,13,5z"/><path d="M15,21h4c1.1,0,2-0.9,2-2v-4c0-1.1-0.9-2-2-2h-4c-1.1,0-2,0.9-2,2v4C13,20.1,13.9,21,15,21z"/></svg>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="dark-overlay"></div>
+    <!-- Header End -->
+    
+	<!-- Sidebar -->
+    <div class="sidebar">
+		<div class="author-box">
+			<div class="dz-media">
+				<img src="assets/images/stories/small/profilepic.jpg" alt="author-image">
+			</div>
+			<div class="dz-info">
+				<span>Good Morning</span>
+				<h5 class="name">Emilla</h5>
+			</div>
+		</div>
+<ul class="nav navbar-nav">	
+			<li class="nav-label">Main Menu</li>
+			<li><a class="nav-link" href="welcome.html">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+					<path d="M13.35 20.13c-.76.69-1.93.69-2.69-.01l-.11-.1C5.3 15.27 1.87 12.16 2 8.28c.06-1.7.93-3.33 2.34-4.29 2.64-1.8 5.9-.96 7.66 1.1 1.76-2.06 5.02-2.91 7.66-1.1 1.41.96 2.28 2.59 2.34 4.29.14 3.88-3.3 6.99-8.55 11.76l-.1.09z"></path></svg>
+				</span>
+				<span>Welcome</span>
+			</a></li>
+			<li><a class="nav-link" href="/">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+						<path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z"></path>
+					</svg>
+				</span>
+				<span>Home</span>
+			</a></li>
+			
+			<li><a class="nav-link" href="/search">
+				<span class="dz-icon">
+					<svg fill="#000000" width="24px" viewBox="0 0 24 24" height="24px" xmlns="http://www.w3.org/2000/svg"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"></path></svg>
+				</span>
+				<span>Search</span>
+			</a></li>
+			<li><a class="nav-link" href="notification.html">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.68-1.5-1.51-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-1.3 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16zm-6.01 6c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zM6.77 4.73c.42-.38.43-1.03.03-1.43-.38-.38-1-.39-1.39-.02C3.7 4.84 2.52 6.96 2.14 9.34c-.09.61.38 1.16 1 1.16.48 0 .9-.35.98-.83.3-1.94 1.26-3.67 2.65-4.94zM18.6 3.28c-.4-.37-1.02-.36-1.4.02-.4.4-.38 1.04.03 1.42 1.38 1.27 2.35 3 2.65 4.94.07.48.49.83.98.83.61 0 1.09-.55.99-1.16-.38-2.37-1.55-4.48-3.25-6.05z"></path></svg>
+				</span>
+				<span>Notifications</span>
+				
+			</a></li>
+			<li><a class="nav-link" href="profile.html">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-1c0-2.66-5.33-4-8-4z"></path></svg>
+				</span>
+				<span>Profile</span>
+			</a></li>
+			<li><a class="nav-link" href="public">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM7 9h10c.55 0 1 .45 1 1s-.45 1-1 1H7c-.55 0-1-.45-1-1s.45-1 1-1zm6 5H7c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1zm4-6H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>
+				</span>
+				<span>Chat</span>
+				
+			</a></li>
+			<li><a class="nav-link" href="private">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM7 9h10c.55 0 1 .45 1 1s-.45 1-1 1H7c-.55 0-1-.45-1-1s.45-1 1-1zm6 5H7c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1zm4-6H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>
+				</span>
+				<span>Private Messages</span>
+				
+			</a></li><li><a class="nav-link" href="welcome.html">
+				<span class="dz-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"></path><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"></path></g></g></svg>
+				</span>
+				<span>Logout</span>
+			</a></li>
+            <li class="nav-label">Settings</li>
+            <li>
+                <a href="/setting.html" class="nav-link">
+                    <span class="dz-icon">                        
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="inherit" xmlns:v="https://vecta.io/nano"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 0 0-.44-.25c-.06 0-.12.01-.17.03l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.06-.02-.12-.03-.18-.03-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65a7.93 7.93 0 0 0-.07.98 7.93 7.93 0 0 0 .07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 0 0 .44.25c.06 0 .12-.01.17-.03l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73s-.02.43-.05.73l-.14 1.13.89.7 1.08.84-.7 1.21-1.27-.51-1.04-.42-.9.68c-.43.32-.84.56-1.25.73l-1.06.43-.16 1.13-.2 1.35h-1.4l-.19-1.35-.16-1.13-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7-1.06.43-1.27.51-.7-1.21 1.08-.84.89-.7-.14-1.13L6.5 12c0-.2.02-.43.05-.73l.14-1.13-.89-.7-1.08-.84.7-1.21 1.27.51 1.04.42.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43.16-1.13.2-1.35h1.39l.19 1.35.16 1.13 1.06.43c.43.18.83.41 1.23.71l.91.7 1.06-.43 1.27-.51.7 1.21-1.07.85-.89.7.14 1.13zM12 8a4 4 0 1 0 0 8 4 4 0 1 0 0-8zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path></svg>
+                    </span>					
+                    <span>Go to settings</span>					
+                </a>
+            </li>
+            
+		</ul>
+		<div class="sidebar-bottom">
+			<h6 class="name">Yowl - Social Network</h6>
+			<span class="ver-info">App Version 1.0</span>
+        </div>
+    </div>
+    <!-- Sidebar End -->
+	
+    <!-- Page Content -->
+    <div class="page-content">
+        <div class="content-inner pt-0">
+			<div class="container p-b50">
+			
+				<!-- STORY -->
+				<div class="author-notification mb-4">
+					<div class="swiper-btn-center-lr my-0">
+						<div class="swiper-container categorie-swiper">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box style-1">
+										<div class="story-bx">
+											<img src="assets/images/stories/small/profilepic.jpg" alt="/">
+											<div class="add-box">
+												<i class="fa-solid fa-plus"></i>
+											</div>
+										</div>
+										<span class="detail">Your Story</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="live-story.html" class="categore-box">
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic1.jpg" alt="/">
+											<div class="live-text">Live</div>
+										</div>
+										<span class="detail">Emilia</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box">
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic2.jpg" alt="/">
+										</div>
+										<span  class="detail">Richard</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box">
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic3.jpg" alt="/">
+										</div>
+										<span  class="detail">Jasmine</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic4.jpg" alt="/">
+										</div>
+										<span  class="detail">Lucas</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic5.jpg" alt="/">
+										</div>
+										<span  class="detail">Hendri</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic6.jpg" alt="/">
+										</div>
+										<span  class="detail">Carla</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="live-story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic7.jpg" alt="/">
+											<div class="live-text">Live</div>
+										</div>
+										<span  class="detail">Jermy</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic5.jpg" alt="/">
+										</div>
+										<span  class="detail">Kerry</span>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="story.html" class="categore-box" >
+										<div class="story-bx">
+											<img src="assets/images/stories/small/pic6.jpg" alt="/">
+										</div>
+										<span  class="detail">Perry</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- STORY -->
+			</div>    
+		</div>
+    </div>    
+    <!-- Page Content End-->
+	
+    <!-- Menubar -->
+	<div class="menubar-area">
+		<div class="toolbar-inner menubar-nav">
+			<a href="/" class="nav-link active">
+				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" xmlns:v="https://vecta.io/nano"><path d="M21.44 11.035a.75.75 0 0 1-.69.465H18.5V19a2.25 2.25 0 0 1-2.25 2.25h-3a.75.75 0 0 1-.75-.75V16a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 1-.75.75h-3A2.25 2.25 0 0 1 3.5 19v-7.5H1.25a.75.75 0 0 1-.69-.465.75.75 0 0 1 .158-.818l9.75-9.75A.75.75 0 0 1 11 .246a.75.75 0 0 1 .533.222l9.75 9.75a.75.75 0 0 1 .158.818z" fill="#b5b5b5"/></svg>
+			</a>
+            <a href="timeline.html" class="nav-link">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#b5b5b5" stroke-opacity="1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M21 21L16.65 16.65" stroke="#b5b5b5" stroke-opacity="1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+			<a href="create-post.html" class="nav-link add-post">
+				<i class="fa-solid fa-plus"></i>
+			</a>
+			<a href="select" class="nav-link">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#b5b5b5" viewBox="0 0 511.606 511.606" xmlns:v="https://vecta.io/nano"><path d="M436.594 74.943c-99.917-99.917-261.637-99.932-361.568 0-80.348 80.347-95.531 199.817-48.029 294.96L.662 485.742c-3.423 15.056 10.071 28.556 25.133 25.133l115.839-26.335c168.429 84.092 369.846-37.653 369.846-228.812 0-68.29-26.595-132.494-74.886-180.785zM309.143 319.394h-160c-11.598 0-21-9.402-21-21s9.402-21 21-21h160c11.598 0 21 9.402 21 21s-9.402 21-21 21zm53.334-85.333H149.143c-11.598 0-21-9.402-21-21s9.402-21 21-21h213.334c11.598 0 21 9.402 21 21s-9.403 21-21 21z"/></svg>
+			</a>
+			<a href="profile.html" class="nav-link">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="21" fill="#b5b5b5" xmlns:v="https://vecta.io/nano"><path d="M8 7.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 1 0 0 7.5zm7.5 9v1.5c-.002.199-.079.39-.217.532C13.61 20.455 8.57 20.5 8 20.5s-5.61-.045-7.282-1.718C.579 18.64.501 18.449.5 18.25v-1.5a7.5 7.5 0 1 1 15 0z"/></svg>
+			</a>
+		</div>
+	</div>
+	<!-- Menubar -->
+	
+	<!-- OffCanvas-1 -->
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom1">
+		<button type="button" class="btn-close drage-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		<div class="offcanvas-header share-style m-0 pb-0">
+			<form class="w-100">
+				<input type="text" class="form-control border-0" placeholder="Write a message ..."/>
+			</form>
+		</div>
+        <div class="offcanvas-body container pb-0">
+			<form>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search..">
+					<span class="input-group-text"> 
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M23.7871 22.7761L17.9548 16.9437C19.5193 15.145 20.4665 12.7982 20.4665 10.2333C20.4665 4.58714 15.8741 0 10.2333 0C4.58714 0 0 4.59246 0 10.2333C0 15.8741 4.59246 20.4665 10.2333 20.4665C12.7982 20.4665 15.145 19.5193 16.9437 17.9548L22.7761 23.7871C22.9144 23.9255 23.1007 24 23.2816 24C23.4625 24 23.6488 23.9308 23.7871 23.7871C24.0639 23.5104 24.0639 23.0528 23.7871 22.7761ZM1.43149 10.2333C1.43149 5.38004 5.38004 1.43681 10.2279 1.43681C15.0812 1.43681 19.0244 5.38537 19.0244 10.2333C19.0244 15.0812 15.0812 19.035 10.2279 19.035C5.38004 19.035 1.43149 15.0865 1.43149 10.2333Z" fill="#FE9063"></path>
+						</svg>
+					</span>
+				</div>
+			</form>
+        </div>
+    </div>
+	<!-- OffCanvas-1 -->
+	
+	<!-- Theme Color Settings -->
+	<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom">
+        <div class="offcanvas-body small">
+            <ul class="theme-color-settings">
+                <li>
+                    <input class="filled-in" id="primary_color_8" name="theme_color" type="radio" value="color-primary" />
+					<label for="primary_color_8"></label>
+                    <span>Default</span>
+                </li>
+                <li>
+					<input class="filled-in" id="primary_color_2" name="theme_color" type="radio" value="color-green" />
+					<label for="primary_color_2"></label>
+                    <span>Green</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_3" name="theme_color" type="radio" value="color-blue" />
+					<label for="primary_color_3"></label>
+                    <span>Blue</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_4" name="theme_color" type="radio" value="color-pink" />
+					<label for="primary_color_4"></label>
+                    <span>Pink</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_5" name="theme_color" type="radio" value="color-yellow" />
+					<label for="primary_color_5"></label>
+                    <span>Yellow</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_6" name="theme_color" type="radio" value="color-orange" />
+					<label for="primary_color_6"></label>
+                    <span>Orange</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_7" name="theme_color" type="radio" value="color-purple" />
+					<label for="primary_color_7"></label>
+                    <span>Purple</span>
+                </li>
+                <li>
+					<input class="filled-in" id="primary_color_1" name="theme_color" type="radio" value="color-red" />
+					<label for="primary_color_1"></label>
+                    <span>Red</span>
+                </li>
+                <li>
+					<input class="filled-in" id="primary_color_9" name="theme_color" type="radio" value="color-lightblue" />
+					<label for="primary_color_9"></label>
+                    <span>Lightblue</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_10" name="theme_color" type="radio" value="color-teal" />
+					<label for="primary_color_10"></label>
+                    <span>Teal</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_11" name="theme_color" type="radio" value="color-lime" />
+					<label for="primary_color_11"></label>
+                    <span>Lime</span>
+                </li>
+                <li>
+                    <input class="filled-in" id="primary_color_12" name="theme_color" type="radio" value="color-deeporange" />
+					<label for="primary_color_12"></label>
+                    <span>Deeporange</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+	<!-- Theme Color Settings End -->
+
+	<!-- PWA Offcanvas -->
+	<div class="offcanvas offcanvas-bottom pwa-offcanvas">
+		<div class="container">
+			<div class="offcanvas-body small">
+				<img class="logo" src="assets/images/icon.png" alt="">
+				<h5 class="title">This site contains cookies</h5>
+				<p class="pwa-text">We use cookies to enhance your experience. By continuing to browse, you agree to their use. For more information, see our Privacy Policy.</p>
+				<button type="button" class="btn btn-sm btn-primary pwa-btn">Accept</button>
+                <button type="button" class="btn btn-sm pwa-close light btn-secondary ms-2">Customize your choices</button>
+				<button type="button" class="btn btn-sm pwa-close dark btn-secondary ms-2">Decline</button>
+			</div>
+		</div>
+	</div>
+	<div class="offcanvas-backdrop pwa-backdrop"></div>
+	<!-- PWA Offcanvas End -->
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+async function handleLike(postId, likeButton) {
+    const username = getCookie('username');
+    try {
+        // Check if user already liked the post
+        const likeCheckResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/likes?post_id=eq.${postId}&username=eq.${username}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const postResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/post?id=eq.${postId}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const currentLikes = postResponse.data[0].likes;
+
+        if (likeCheckResponse.data.length === 0) {
+            // User hasn't liked the post yet, add like
+            await axios.post(
+                `${SUPABASE_URL}/rest/v1/likes`,
+                {
+                    post_id: postId,
+                    username: username
+                },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            // Update post likes count (increment)
+            await axios.patch(
+                `${SUPABASE_URL}/rest/v1/post?id=eq.${postId}`,
+                { likes: currentLikes + 1 },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            // Update UI for like
+            likeButton.classList.add('liked');
+            const likesCount = likeButton.querySelector('.likes-count');
+            likesCount.textContent = currentLikes + 1;
+        } else {
+            // User has already liked the post, remove like
+            await axios.delete(
+                `${SUPABASE_URL}/rest/v1/likes?post_id=eq.${postId}&username=eq.${username}`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            // Update post likes count (decrement)
+            await axios.patch(
+                `${SUPABASE_URL}/rest/v1/post?id=eq.${postId}`,
+                { likes: currentLikes - 1 },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            // Update UI for unlike
+            likeButton.classList.remove('liked');
+            const likesCount = likeButton.querySelector('.likes-count');
+            likesCount.textContent = currentLikes - 1;
+        }
+    } catch (error) {
+        console.error('Error handling like:', error);
+    }
+}
+
+async function loadSidebar() {
+    try {
+        // Fetch all users
+        const usersResponse = await axios.get(`${SUPABASE_URL}/rest/v1/users?select=*`, {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`
+            }
+        });
+
+        // Get the sidebar container
+        const sidebarContainer = document.querySelector('.right-sidebar');
+        if (!sidebarContainer) return;
+
+        // Create the sidebar content
+        let sidebarHTML = `
+            <div class="author-notification mb-4">
+                <!-- Static Yowl Admin entry -->
+                <div class="slider-item">
+                    <div class="post-card">
+                        <div class="top-meta">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="media media-40">
+                                    <img class="rounded" src="assets/images/stories/small/pic1.jpg" alt="/">
+                                </div>
+                                <div class="meta-content ms-3">
+                                    <h6 class="title mb-0">Yowl</h6>
+                                    <ul class="meta-list">
+                                        <li>Admin</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+        // Add user entries
+        usersResponse.data.forEach(user => {
+            sidebarHTML += `
+                <div class="slider-item">
+                    <div class="post-card">
+                        <div class="top-meta">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="media media-40">
+                                    <img class="rounded" src="${user.img_url || 'assets/images/stories/small/pic1.jpg'}" alt="/">
+                                </div>
+                                <div class="meta-content ms-3">
+                                    <h6 class="title mb-0">${user.name}</h6>
+                                    <ul class="meta-list">
+                                        <li>@${user.username}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        sidebarHTML += `</div>`;
+
+        // Update the sidebar content
+        sidebarContainer.innerHTML = sidebarHTML;
+
+    } catch (error) {
+        console.error('Error loading sidebar:', error);
+    }
+}
+
+async function loadProfile() {
+    const username = getCookie('username');
+    const password = getCookie('password');
+
+    if (username && password) {
+        try {
+            // Fetch user data
+            const userResponse = await axios.get(`${SUPABASE_URL}/rest/v1/users?username=eq.${username}`, {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            });
+
+            if (userResponse.data.length > 0) {
+                const user = userResponse.data[0];
+
+                // Update header name
+                document.querySelector("body > div.page-wraper.header-fixed > header > div > div > div.left-content > h4").textContent = `Home | ${user.name}`;
+                
+                // Update sidebar name
+                document.querySelector("body > div.page-wraper.header-fixed > div.sidebar > div.author-box > div.dz-info > h5").textContent = user.name;
+                
+                // Update all profile pictures
+                document.querySelectorAll('img[src="assets/images/stories/small/profilepic.jpg"]').forEach(function(img) { 
+                    img.src = user.img_url;
+                });
+
+                // Fetch posts and likes
+                const [postsResponse, likesResponse] = await Promise.all([
+                    axios.get(`${SUPABASE_URL}/rest/v1/post?select=*&order=created_at.desc`, {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }),
+                    axios.get(`${SUPABASE_URL}/rest/v1/likes?username=eq.${username}`, {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    })
+                ]);
+
+                const userLikes = new Set(likesResponse.data.map(like => like.post_id));
+
+                // Display posts
+                const postsContainer = document.querySelector('.container.p-b50');
+                const postsHTML = postsResponse.data.map(post => `
+                <div class="post-card">
+                    <div class="top-meta">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <a href="/profile/user/?username=${post.username}" class="media media-40">
+                                <img class="rounded" src="${post.post_url}" alt="/">
+                            </a>
+                            <div class="meta-content ms-3">
+                                <h6 class="title mb-0"><a href="/profile/user/?username=${post.username}">${post.username}</a></h6>
+                                <ul class="meta-list">
+                                    <li>
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.25 5.83331C12.25 9.91665 7 13.4166 7 13.4166C7 13.4166 1.75 9.91665 1.75 5.83331C1.75 4.44093 2.30312 3.10557 3.28769 2.121C4.27226 1.13644 5.60761 0.583313 7 0.583313C8.39239 0.583313 9.72774 1.13644 10.7123 2.121C11.6969 3.10557 12.25 4.44093 12.25 5.83331Z" stroke="black" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M7 7.58331C7.9665 7.58331 8.75 6.79981 8.75 5.83331C8.75 4.86681 7.9665 4.08331 7 4.08331C6.0335 4.08331 5.25 4.86681 5.25 5.83331C5.25 6.79981 6.0335 7.58331 7 7.58331Z" stroke="black" stroke-opacity="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>	
+                                        ${post.localisation}
+                                    </li>
+                                    <li>${post.created_at}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-black">${post.text}</p>
+                    ${post.img_url ? `<div class="dz-media"><img src="${post.img_url}" alt="/"></div>` : ''}
+                    <div class="post-meta-btn">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" class="action-btn bg-primary ${userLikes.has(post.id) ? 'liked' : ''}" 
+                                onclick="handleLike(${post.id}, this)">
+                                    <i class="fa-regular fa-heart fill-icon"></i>
+                                    <i class="fa-solid fa-heart fill-icon-2"></i>
+                                    <h6 class="font-14 mb-0 ms-2 likes-count">${post.likes}</h6>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/comments/?id=${post.id}" class="action-btn bg-secondary">
+                                    <i class="fa-solid fa-comment fill-icon"></i>
+                                    <h6 class="font-14 mb-0 ms-2">${post.comments}</h6>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+
+                // Insert posts after the stories section
+                const storiesSection = document.querySelector('.author-notification.mb-4');
+                storiesSection.insertAdjacentHTML('afterend', postsHTML);
+
+            } else {
+                console.error('User not found!');
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    } else {
+        console.error('User not logged in');
+        window.location.href = "https://yowl.ct.ws/authentication/";
+    }
+}
+
+// Initial load
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadProfile();
+        await loadSidebar();
+    } catch (error) {
+        console.error('Error during initial load:', error);
+    }
+});
+
+</script>
+<script> // COOKIES CNIL !
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function showCookiePreferences() {
+    const styles = document.createElement('style');
+    styles.textContent = `
+        .cookie-preferences-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .cookie-modal-content { background-color: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+        .cookie-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .close-modal { background: none; border: none; font-size: 24px; cursor: pointer; }
+        .cookie-option { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cookie-info { flex: 1; padding-right: 20px; }
+        .cookie-info h4 { margin: 0 0 5px 0; }
+        .cookie-info p { margin: 0; font-size: 0.9em; color: #666; }
+        .cookie-toggle { min-width: 100px; text-align: right; }
+        .cookie-footer { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+        .confirm-button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .confirm-button:hover { background-color: #0056b3; }
+        .save-preferences { background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .save-preferences:hover { background-color: #218838; }
+    `;
+    document.head.appendChild(styles);
+
+    const cookiePreferences = document.createElement('div');
+    cookiePreferences.className = 'cookie-preferences-modal';
+
+    cookiePreferences.innerHTML = `
+        <div class="cookie-modal-content">
+            <div class="cookie-header">
+                <h3>Cookie Preferences</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="cookie-actions">
+                <button class="accept-all">Accept All</button>
+                <button class="reject-all">Reject All</button>
+            </div>
+            <div class="cookie-body">
+                <div class="cookie-section">
+                    <div class="cookie-option">
+                        <div class="cookie-info">
+                            <h4>Essential Cookies</h4>
+                            <p>These cookies are necessary for the website to function and cannot be switched off.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" checked disabled>
+                            <label>Always Active</label>
+                        </div>
+                    </div>
+                    <div class="cookie-option">
+                        <div class="cookie-info">
+                            <h4>Performance Cookies</h4>
+                            <p>These cookies allow us to count visits and traffic sources to measure and improve site performance.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" id="performanceCookies">
+                            <label for="performanceCookies">Toggle</label>
+                        </div>
+                    </div>
+                    <div class="cookie-option">
+                        <div class="cookie-info">
+                            <h4>Functional Cookies</h4>
+                            <p>These cookies enable enhanced functionality and personalization.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" id="functionalCookies">
+                            <label for="functionalCookies">Toggle</label>
+                        </div>
+                    </div>
+                    <div class="cookie-option">
+                        <div class="cookie-info">
+                            <h4>Targeting Cookies</h4>
+                            <p>These cookies may be set to display targeted advertising relevant to your interests.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" id="targetingCookies">
+                            <label for="targetingCookies">Toggle</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-left: 2.5em;padding: 0 0cm 0.05cm 0;border-width: 2px;"></p>
+            <div class="cookie-body" style="text-align: center;">
+                <button class="confirm-button">Confirm</button>
+                <button class="save-preferences">Save Preferences</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(cookiePreferences);
+
+    const savedPreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+    if (savedPreferences.performance) document.getElementById('performanceCookies').checked = savedPreferences.performance;
+    if (savedPreferences.functional) document.getElementById('functionalCookies').checked = savedPreferences.functional;
+    if (savedPreferences.targeting) document.getElementById('targetingCookies').checked = savedPreferences.targeting;
+
+    function savePreferencesAndClose() {
+        const preferences = {
+            performance: document.getElementById('performanceCookies').checked,
+            functional: document.getElementById('functionalCookies').checked,
+            targeting: document.getElementById('targetingCookies').checked
+        };
+
+        localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 365);
+        document.cookie = `cookiePreferencesSet=true; expires=${expirationDate.toUTCString()}; path=/`;
+
+        cookiePreferences.remove();
+
+        const confirmation = document.createElement('div');
+        confirmation.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            z-index: 1000;
+        `;
+        confirmation.textContent = 'Your preferences have been saved!';
+        document.body.appendChild(confirmation);
+
+        setTimeout(() => confirmation.remove(), 3000);
+    }
+
+    cookiePreferences.querySelector('.accept-all').addEventListener('click', function() {
+        document.getElementById('performanceCookies').checked = true;
+        document.getElementById('functionalCookies').checked = true;
+        document.getElementById('targetingCookies').checked = true;
+        savePreferencesAndClose();
+    });
+
+    cookiePreferences.querySelector('.reject-all').addEventListener('click', function() {
+        document.getElementById('performanceCookies').checked = false;
+        document.getElementById('functionalCookies').checked = false;
+        document.getElementById('targetingCookies').checked = false;
+        savePreferencesAndClose();
+    });
+
+    cookiePreferences.querySelector('.confirm-button').addEventListener('click', savePreferencesAndClose);
+    cookiePreferences.querySelector('.save-preferences').addEventListener('click', savePreferencesAndClose);
+
+    cookiePreferences.querySelector('.close-modal').addEventListener('click', function() {
+        cookiePreferences.remove();
+    });
+}
+
+// Handle Accept button click
+document.addEventListener('click', function(e) {
+    if (e.target.matches('.btn.btn-sm.btn-primary.pwa-btn')) {
+        const preferences = {
+            performance: true,
+            functional: true,
+            targeting: true
+        };
+
+        localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 365);
+        document.cookie = `cookiePreferencesSet=true; expires=${expirationDate.toUTCString()}; path=/`;
+
+        const confirmation = document.createElement('div');
+        confirmation.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            z-index: 1000;
+        `;
+        confirmation.textContent = 'All cookies accepted!';
+        document.body.appendChild(confirmation);
+
+        setTimeout(() => confirmation.remove(), 3000);
+    }
+});
+
+// Check for existing cookie on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (getCookie('cookiePreferencesSet')) {
+        const cookieBanner = document.querySelector('.offcanvas.offcanvas-bottom.pwa-offcanvas');
+        const backdrop = document.querySelector('.offcanvas-backdrop.pwa-backdrop');
+        
+        if (cookieBanner) cookieBanner.remove();
+        if (backdrop) backdrop.remove();
+    }
+});
+
+// Show preferences modal when clicking on customize button
+document.addEventListener('click', function(e) {
+    if(e.target.matches('.pwa-close.light')) {
+        showCookiePreferences();
+    }
+});
+
+</script>
+<script src="assets/js/jquery.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script><!-- Swiper -->
+<script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="assets/js/settings.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="index.js"></script>
+<script>
+    $(".stepper").TouchSpin();
+</script>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Messages Privés</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+        }
+
+
+
+        body {
+
+            background-color: #fafafa;
+
+            height: 100vh;
+
+            display: flex;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .container {
+
+            display: flex;
+
+            width: 100%;
+
+            height: 100vh;
+
+        }
+
+
+
+        .contacts-list {
+
+            width: 350px;
+
+            height: 100vh;
+
+            border-right: 1px solid #dbdbdb;
+
+            background: white;
+
+            overflow-y: auto;
+
+        }
+
+
+
+        .contacts-header {
+
+            padding: 20px;
+
+            border-bottom: 1px solid #dbdbdb;
+
+            position: sticky;
+
+            top: 0;
+
+            background: white;
+
+            z-index: 1;
+
+        }
+
+
+
+        .contacts-header h2 {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #262626;
+
+        }
+
+
+
+        .contact-item {
+
+            padding: 8px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+        }
+
+
+
+        .contact-item:hover {
+
+            background-color: #fafafa;
+
+        }
+
+
+
+        .contact-item.active {
+
+            background-color: #efefef;
+
+        }
+
+
+
+        .contact-avatar {
+
+            width: 56px;
+
+            height: 56px;
+
+            border-radius: 50%;
+
+            margin-right: 12px;
+
+            object-fit: cover;
+
+        }
+
+
+
+        .contact-info {
+
+            flex: 1;
+
+        }
+
+
+
+        .contact-name {
+
+            font-weight: 600;
+
+            color: #262626;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+
+        .contact-last-message {
+
+            color: #8e8e8e;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+
+        .chat-area {
+
+            flex: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: white;
+
+        }
+
+
+
+        .chat-header {
+
+            padding: 16px 20px;
+
+            border-bottom: 1px solid #dbdbdb;
+
+            display: flex;
+
+            align-items: center;
+
+            background: white;
+
+        }
+
+
+
+        .chat-header-info {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+
+        .chat-header-avatar {
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 50%;
+
+            margin-right: 12px;
+
+            object-fit: cover;
+
+        }
+
+
+
+        .chat-header h2 {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #262626;
+
+        }
+
+
+
+        .messages-container {
+
+            flex: 1;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            background: white;
+
+        }
+
+
+
+        .message {
+
+            max-width: 60%;
+
+            margin-bottom: 10px;
+
+            clear: both;
+
+        }
+
+
+
+        .message.sent {
+
+            float: right;
+
+        }
+
+
+
+        .message.received {
+
+            float: left;
+
+        }
+
+
+
+        .message-content {
+
+            padding: 12px 16px;
+
+            border-radius: 22px;
+
+            font-size: 14px;
+
+            line-height: 1.4;
+
+            word-wrap: break-word;
+
+        }
+
+
+
+        .message.sent .message-content {
+
+            background: #fe9063;
+
+            color: white;
+
+        }
+
+
+
+        .message.received .message-content {
+
+            background: #efefef;
+
+            color: #262626;
+
+        }
+
+
+
+        .message-time {
+
+            font-size: 11px;
+
+            color: #8e8e8e;
+
+            margin-top: 4px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+
+        .message.sent .message-time {
+
+            text-align: right;
+
+        }
+
+
+
+        #message-form {
+
+            padding: 20px;
+
+            border-top: 1px solid #dbdbdb;
+
+            background: white;
+
+        }
+
+
+
+        .message-input-container {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+
+        #message-input {
+
+            flex: 1;
+
+            border: 1px solid #dbdbdb;
+
+            border-radius: 22px;
+
+            padding: 12px 16px;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+
+        #message-input:focus {
+
+            border-color: #8e8e8e;
+
+        }
+
+
+
+        button[type="submit"] {
+
+            background: #fe9063;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 22px;
+
+            padding: 8px 16px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+        }
+
+
+
+        button[type="submit"]:hover {
+
+            background: #1877f2;
+
+        }
+
+
+
+        .empty-state {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 100%;
+
+            color: #8e8e8e;
+
+            padding: 20px;
+
+            text-align: center;
+
+        }
+
+
+
+        .empty-state-icon {
+
+            font-size: 48px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+
+        .back-button {
+
+            display: none;
+
+            margin-right: 10px;
+
+            background: none;
+
+            border: none;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            color: #262626;
+
+        }
+
+
+
+        @media (max-width: 768px) {
+
+            .contacts-list {
+
+                width: 100%;
+
+                display: flex;
+
+                flex-direction: column;
+
+            }
+
+
+
+            .chat-area {
+
+                position: fixed;
+
+                top: 0;
+
+                left: 0;
+
+                width: 100%;
+
+                height: 100%;
+
+                display: none;
+
+            }
+
+
+
+            .chat-area.active {
+
+                display: flex;
+
+            }
+
+
+
+            .back-button {
+
+                display: block;
+
+            }
+
+
+
+            body.chat-open .contacts-list {
+
+                display: none;
+
+            }
+
+
+
+            body.chat-open .chat-area {
+
+                display: flex;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="contacts-list">
+
+            <div class="contacts-header">
+
+                <h2>Messages</h2>
+
+            </div>
+
+            <div id="contacts-list">
+
+                <!-- Contacts will be inserted here -->
+
+            </div>
+
+        </div>
+
+
+
+        <div class="chat-area">
+
+            <div class="chat-header">
+
+                <button class="back-button">←</button>
+
+                <div class="chat-header-info">
+
+                    <img id="chat-header-avatar" class="chat-header-avatar" src="/assets/images/icon.png" alt="">
+
+                    <h2 id="chat-header">Sélectionnez une conversation</h2>
+
+                </div>
+
+            </div>
+
+            
+
+            <div class="messages-container" id="messages-container">
+
+                <div class="empty-state">
+
+                    <div class="empty-state-icon">📨</div>
+
+                    <div class="empty-state-text">
+
+                        Sélectionnez une conversation pour commencer à discuter
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <form id="message-form" style="display: none;">
+
+                <div class="message-input-container">
+
+                    <input type="text" id="message-input" placeholder="Écrivez un message...">
+
+                    <button type="submit">Envoyer</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
+    
+    let currentChat = null;
+    let currentUsername = getCookie('username');
+    let pollingInterval = null;
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Fonction pour charger les contacts
+    async function loadContacts() {
+        try {
+            const [followsResponse, messagesResponse] = await Promise.all([
+                axios.get(
+                    `${SUPABASE_URL}/rest/v1/follows?follower_username=eq.${currentUsername}&select=following_username`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                ),
+                axios.get(
+                    `${SUPABASE_URL}/rest/v1/private_messages?or=(sender_username.eq.${currentUsername},receiver_username.eq.${currentUsername})&order=created_at.desc`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                )
+            ]);
+
+            const usersResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/users?select=username,img_url`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const usersMap = new Map(usersResponse.data.map(user => [user.username, user]));
+            const contacts = followsResponse.data;
+            const messages = messagesResponse.data;
+
+            const lastMessages = new Map();
+            messages.forEach(message => {
+                const otherUser = message.sender_username === currentUsername ? 
+                    message.receiver_username : message.sender_username;
+                if (!lastMessages.has(otherUser)) {
+                    lastMessages.set(otherUser, message);
+                }
+            });
+
+            const contactsList = document.getElementById('contacts-list');
+            contactsList.innerHTML = contacts.map(contact => {
+                const user = usersMap.get(contact.following_username);
+                const lastMessage = lastMessages.get(contact.following_username);
+                const defaultAvatar = 'https://yowl.ct.ws/assets/images/icon.png';
+                
+                return `
+                    <div class="contact-item" onclick="openChat('${contact.following_username}')">
+                        <img class="contact-avatar" 
+                             src="${user?.img_url || defaultAvatar}" 
+                             alt="${contact.following_username}"
+                             onerror="this.src='${defaultAvatar}'">
+                        <div class="contact-info">
+                            <div class="contact-name">${contact.following_username}</div>
+                            <div class="contact-last-message">
+                                ${lastMessage ? lastMessage.message : 'Commencer une conversation'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('Error loading contacts:', error);
+        }
+    }
+
+    // Fonction pour ouvrir un chat
+    async function openChat(username) {
+        currentChat = username;
+        
+        try {
+            const userResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/users?username=eq.${username}&select=username,img_url`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const user = userResponse.data[0];
+            const defaultAvatar = 'https://yowl.ct.ws/assets/images/icon.png';
+            
+            document.getElementById('chat-header-avatar').src = user?.img_url || defaultAvatar;
+            document.getElementById('chat-header').textContent = username;
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+
+        document.getElementById('message-form').style.display = 'block';
+        document.body.classList.add('chat-open');
+        
+        await loadMessages(username);
+        setupRealtimeMessages();
+    }
+
+    // Fonction pour charger les messages
+    async function loadMessages(username) {
+        try {
+            const response = await axios.get(
+                `${SUPABASE_URL}/rest/v1/private_messages?or=(and(sender_username.eq.${currentUsername},receiver_username.eq.${username}),and(sender_username.eq.${username},receiver_username.eq.${currentUsername}))&order=created_at.asc`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const messagesContainer = document.getElementById('messages-container');
+            messagesContainer.innerHTML = response.data.map(message => `
+                <div class="message ${message.sender_username === currentUsername ? 'sent' : 'received'}">
+                    <div class="message-content">${message.message}</div>
+                    <div class="message-time">
+                        ${new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                </div>
+            `).join('');
+
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        } catch (error) {
+            console.error('Error loading messages:', error);
+        }
+    }
+
+    // Fonction pour envoyer un message
+    async function sendMessage(message) {
+        try {
+            await axios.post(
+                `${SUPABASE_URL}/rest/v1/private_messages`,
+                {
+                    sender_username: currentUsername,
+                    receiver_username: currentChat,
+                    message: message
+                },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    }
+                }
+            );
+            // Reload messages immediately after sending
+            await loadMessages(currentChat);
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    }
+
+    // Real-time setup using polling
+    function setupRealtimeMessages() {
+        // Clear existing interval if any
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+        }
+
+        // Set up new polling interval
+        pollingInterval = setInterval(() => {
+            if (currentChat) {
+                loadMessages(currentChat);
+            }
+        }, 1000); // Poll every second
+    }
+
+    function cleanupRealtimeMessages() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+    }
+
+    // Event Listeners
+    document.getElementById('message-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('message-input');
+        const message = input.value.trim();
+        
+        if (message && currentChat) {
+            await sendMessage(message);
+            input.value = '';
+        }
+    });
+
+    document.querySelector('.back-button').addEventListener('click', () => {
+        document.body.classList.remove('chat-open');
+        cleanupRealtimeMessages();
+        currentChat = null;
+    });
+
+    // Load contacts on startup
+    loadContacts();
+</script>
+
+
+
+</html>
+

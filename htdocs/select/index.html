@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Chat Type</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .popup {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin: 0 0 25px 0;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.1s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .public-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .private-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        @media (min-width: 600px) {
+            .popup {
+                padding: 50px;
+                max-width: 500px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            button {
+                font-size: 20px;
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup">
+        <h2>Choose Chat Type</h2>
+        <div class="buttons">
+            <button class="public-btn" onclick="window.location.href='/public'">Public Chat</button>
+            <button class="private-btn" onclick="window.location.href='/private'">Private Messages</button>
+        </div>
+    </div>
+</body>
+</html>

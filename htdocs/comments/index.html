@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="DexignZone" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Yowl - Your Online World Link"/>
+	<meta property="og:title" content="Yowl - Your Online World Link" />
+	<meta property="og:description" content="Yowl - Your Online World Link" />
+	<meta property="og:image" content="social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+    
+    <!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Yowl - Your Online World Link</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+</head>    
+</head>   
+<body class="bg-white">
+<div class="page-wraper header-fixed">
+    
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- Preloader end-->
+    
+	<!-- Header -->
+	<header class="header bg-white">
+		<div class="container">
+			<div class="main-bar">
+				<div class="left-content">
+					<a href="javascript:void(0);" class="back-btn">
+						<i class="fa-solid fa-arrow-left"></i>
+					</a>
+					<h4 class="title mb-0">Comments</h4>
+				</div>
+				<div class="mid-content">
+				</div>
+				<div class="right-content">
+				</div>
+			</div>
+		</div>
+	</header>
+    <!-- Header End -->
+	
+    <!-- Page Content -->
+    <div class="page-content">
+        <div class="container profile-area bottom-content">    
+            <ul class="dz-comments-list" id="comments-list">
+                <!-- Comments will be loaded here dynamically -->
+            </ul>
+        </div>
+    </div>
+    <footer class="footer fixed border-top">
+        <div class="container py-2">
+            <div class="commnet-footer">
+                <div class="d-flex align-items-center flex-1">
+                    <div class="media media-40 rounded-circle">
+                        <img id="current-user-avatar" src="assets/images/stories/small/pic1.jpg" alt="/">
+                    </div>
+                    <form id="comment-form" class="flex-1">
+                        <input type="text" class="form-control" id="comment-input" placeholder="Add a Comment...">
+                    </form>
+                </div>
+                <button type="submit" form="comment-form" class="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M21.4499 11.11L3.44989 2.11C3.27295 2.0187 3.07279 1.9823 2.87503 2.00546C2.67728 2.02862 2.49094 2.11029 2.33989 2.24C2.18946 2.37064 2.08149 2.54325 2.02982 2.73567C1.97815 2.9281 1.98514 3.13157 2.04989 3.32L4.99989 12L2.09989 20.68C2.05015 20.8267 2.03517 20.983 2.05613 21.1364C2.0771 21.2899 2.13344 21.4364 2.2207 21.5644C2.30797 21.6924 2.42378 21.7984 2.559 21.874C2.69422 21.9496 2.84515 21.9927 2.99989 22C3.15643 21.9991 3.31057 21.9614 3.44989 21.89L21.4499 12.89C21.6137 12.8061 21.7512 12.6786 21.8471 12.5216C21.9431 12.3645 21.9939 12.184 21.9939 12C21.9939 11.8159 21.9431 11.6355 21.8471 11.4784C21.7512 11.3214 21.6137 11.1939 21.4499 11.11ZM4.70989 19L6.70989 13H16.7099L4.70989 19ZM6.70989 11L4.70989 5L16.7599 11H6.70989Z" fill="#40189D"></path>
+                    </svg>
+                </button>
+            </div>    
+        </div>
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function getPostId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
+
+function toggleReplyForm(commentId) {
+    const replyForm = document.getElementById(`reply-form-${commentId}`);
+    if (replyForm.style.display === 'none') {
+        replyForm.style.display = 'block';
+    } else {
+        replyForm.style.display = 'none';
+    }
+}
+
+async function deleteComment(commentId) {
+    const username = getCookie('username');
+    
+    try {
+        // First check if the comment belongs to the current user
+        const commentResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/commentaires?id=eq.${commentId}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        if (commentResponse.data.length === 0) {
+            console.error('Comment not found');
+            return;
+        }
+
+        const comment = commentResponse.data[0];
+        if (comment.username !== username) {
+            alert("You can only delete your own comments!");
+            return;
+        }
+
+        // Delete the comment and all its replies
+        await axios.delete(
+            `${SUPABASE_URL}/rest/v1/commentaires?id=eq.${commentId}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        // Also delete all replies to this comment
+        await axios.delete(
+            `${SUPABASE_URL}/rest/v1/commentaires?parent_id=eq.${commentId}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        await loadComments();
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        alert('Failed to delete comment');
+    }
+}
+
+async function loadComments() {
+    const postId = getPostId();
+    if (!postId) return;
+
+    try {
+        const commentsResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/commentaires?post_id=eq.${postId}&order=created_at.asc`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const comments = commentsResponse.data;
+        const commentMap = new Map();
+        const rootComments = [];
+
+        comments.forEach(comment => {
+            comment.replies = [];
+            commentMap.set(comment.id, comment);
+            if (comment.parent_id) {
+                const parent = commentMap.get(comment.parent_id);
+                if (parent) {
+                    parent.replies.push(comment);
+                }
+            } else {
+                rootComments.push(comment);
+            }
+        });
+
+        const commentsList = document.getElementById('comments-list');
+        const currentUsername = getCookie('username');
+
+function renderComment(comment, level = 0) {
+    const margin = level > 0 ? `margin-left: ${level * 20}px` : '';
+    const isCurrentUserComment = comment.username === currentUsername;
+    let html = `
+        <li style="${margin}">
+            <div class="list-content">
+                <img src="${comment.profile_pic || 'assets/images/stories/small/pic1.jpg'}" alt="/">    
+                <div>
+                    <h6 class="font-14 mb-1">${comment.username}</h6>
+                    <p class="mb-2">${comment.message}</p>
+                    <ul class="bottom-item">
+                        <li class="text-light">
+                            <a href="javascript:void(0);" onclick="toggleReplyForm(${comment.id})">Reply</a>
+                        </li>
+                        ${isCurrentUserComment ? 
+                            `<li class="text-light">
+                                <a href="javascript:void(0);" onclick="deleteComment(${comment.id})" style="color: #dc3545;">Delete</a>
+                            </li>` 
+                            : ''
+                        }
+                    </ul>
+                    <div id="reply-form-${comment.id}" style="display: none;" class="reply-form">
+                        <form onsubmit="submitReply(event, ${comment.id})" class="d-flex align-items-center mt-2">
+                            <input type="text" class="form-control" placeholder="Write a reply...">
+                            <button type="submit" class="btn btn-primary btn-sm ms-2">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+    `;
+
+    comment.replies.forEach(reply => {
+        html += renderComment(reply, level + 1);
+    });
+
+    return html;
+}
+
+        commentsList.innerHTML = rootComments.map(comment => renderComment(comment)).join('');
+
+    } catch (error) {
+        console.error('Error loading comments:', error);
+    }
+}
+
+async function submitReply(event, parentId) {
+    event.preventDefault();
+    const form = event.target;
+    const input = form.querySelector('input');
+    const message = input.value.trim();
+    const postId = getPostId();
+    const username = getCookie('username');
+
+    if (message && postId && username) {
+        try {
+            const userResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/users?username=eq.${username}`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const user = userResponse.data[0];
+
+            await axios.post(
+                `${SUPABASE_URL}/rest/v1/commentaires`,
+                {
+                    post_id: parseInt(postId),
+                    parent_id: parentId,
+                    username: username,
+                    message: message,
+                    profile_pic: user.img_url
+                },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    }
+                }
+            );
+
+            input.value = '';
+            form.parentElement.style.display = 'none';
+            await loadComments();
+        } catch (error) {
+            console.error('Error posting reply:', error);
+        }
+    }
+}
+
+async function initializeComments() {
+    const username = getCookie('username');
+    const password = getCookie('password');
+
+    if (!username || !password) {
+        window.location.href = "https://yowl.ct.ws/authentication/";
+        return;
+    }
+
+    try {
+        const userResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/users?username=eq.${username}`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        if (userResponse.data.length === 0) {
+            window.location.href = "https://yowl.ct.ws/authentication/";
+            return;
+        }
+
+        const user = userResponse.data[0];
+        const currentUserAvatar = document.getElementById('current-user-avatar');
+        if (user.img_url) {
+            currentUserAvatar.src = user.img_url;
+        }
+
+        const commentForm = document.getElementById('comment-form');
+        const commentInput = document.getElementById('comment-input');
+
+        commentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const message = commentInput.value.trim();
+            const postId = getPostId();
+            
+            if (message && postId) {
+                try {
+                    await axios.post(
+                        `${SUPABASE_URL}/rest/v1/commentaires`,
+                        {
+                            post_id: parseInt(postId),
+                            username: username,
+                            message: message,
+                            profile_pic: user.img_url
+                        },
+                        {
+                            headers: {
+                                'apikey': SUPABASE_KEY,
+                                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                                'Content-Type': 'application/json',
+                                'Prefer': 'return=minimal'
+                            }
+                        }
+                    );
+
+                    commentInput.value = '';
+                    await loadComments();
+                } catch (error) {
+                    console.error('Error posting comment:', error);
+                }
+            }
+        });
+
+        await loadComments();
+        setInterval(loadComments, 5000);
+
+    } catch (error) {
+        console.error('Error initializing comments:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initializeComments);
+</script>
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/settings.js"></script>
+<script src="/assets/js/custom.js"></script>
+</body>
+</html>

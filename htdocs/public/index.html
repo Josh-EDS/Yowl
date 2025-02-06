@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Live Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: linear-gradient(45deg, #f5f5f5, #fff);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #chat-container {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #fe9063;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        #messages {
+            list-style: none;
+            padding: 15px;
+            margin: 0;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            background: #f0f2f5;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .message.own {
+            flex-direction: row-reverse;
+        }
+
+        .message.own .message-content {
+            background: #fe9063;
+            color: white;
+        }
+
+        .message-username {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .message-text {
+            word-wrap: break-word;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .message.own .message-time {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #send-message-form {
+            padding: 15px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            border-top: 1px solid #eee;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        button[type="submit"] {
+            padding: 12px 20px;
+            background: #fe9063;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+            font-size: 16px;
+            -webkit-appearance: none;
+        }
+
+        button[type="submit"]:hover {
+            background: #d77f4b;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            #chat-container {
+                width: 90%;
+                max-width: 800px;
+                height: calc(100vh - 40px);
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div class="chat-header">
+            <a style="text-decoration: none; color: inherit;" href="https://yowl.ct.ws/profile.html">
+            <div class="user-info">
+                <img id="current-user-avatar" class="user-avatar" src="assets/images/stories/pic1.png" alt="Your avatar">
+                <span id="current-username">Loading...</span>
+            </div>
+            </a>
+        </div>
+        <ul id="messages"></ul>
+        <form id="send-message-form">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+<script>
+    const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
+    let lastMessageTimestamp = null;
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function loadMessages() {
+        try {
+            const messagesResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/messages?select=*&order=created_at.desc&limit=30`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const messages = messagesResponse.data.reverse();
+            const username = getCookie('username');
+
+            // Check if we have new messages
+            if (messages.length > 0) {
+                const latestMessageTime = new Date(messages[messages.length - 1].created_at).getTime();
+                if (lastMessageTimestamp === latestMessageTime) {
+                    return; // No new messages
+                }
+                lastMessageTimestamp = latestMessageTime;
+            }
+
+            const messagesList = document.getElementById('messages');
+            const wasAtBottom = messagesList.scrollTop + messagesList.clientHeight >= messagesList.scrollHeight - 50;
+            
+            messagesList.innerHTML = messages.map(message => `
+                <li class="message ${message.username === username ? 'own' : ''}">
+                    <img class="message-avatar" src="${message.profile_pic || 'assets/images/stories/pic1.png'}" alt="${message.username}'s avatar">
+                    <div class="message-content">
+                        <div class="message-username">${message.username}</div>
+                        <div class="message-text">${message.message}</div>
+                        <div class="message-time">${formatTime(message.created_at)}</div>
+                    </div>
+                </li>
+            `).join('');
+
+            if (wasAtBottom) {
+                messagesList.scrollTop = messagesList.scrollHeight;
+            }
+
+        } catch (error) {
+            console.error('Error loading messages:', error);
+        }
+    }
+
+    async function initializeChat() {
+        const username = getCookie('username');
+        const password = getCookie('password');
+
+        if (!username || !password) {
+            window.location.href = "https://yowl.ct.ws/authentication/";
+            return;
+        }
+
+        try {
+            const userResponse = await axios.get(`${SUPABASE_URL}/rest/v1/users?username=eq.${username}`, {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            });
+
+            if (userResponse.data.length === 0) {
+                console.error('User not found!');
+                window.location.href = "https://yowl.ct.ws/authentication/";
+                return;
+            }
+
+            const user = userResponse.data[0];
+            const currentUserAvatar = document.getElementById('current-user-avatar');
+            const currentUsername = document.getElementById('current-username');
+
+            currentUsername.textContent = user.name || user.username;
+            if (user.img_url) {
+                currentUserAvatar.src = user.img_url;
+            }
+
+            const messageForm = document.getElementById('send-message-form');
+            const messageInput = document.getElementById('message-input');
+
+            messageForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const message = messageInput.value.trim();
+                
+                if (message) {
+                    try {
+                        messageInput.disabled = true;
+                        await axios.post(`${SUPABASE_URL}/rest/v1/messages`, {
+                            message: message,
+                            username: username,
+                            profile_pic: user.img_url
+                        }, {
+                            headers: {
+                                'apikey': SUPABASE_KEY,
+                                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                                'Content-Type': 'application/json',
+                                'Prefer': 'return=minimal'
+                            }
+                        });
+
+                        messageInput.value = '';
+                        await loadMessages();
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                    } finally {
+                        messageInput.disabled = false;
+                        messageInput.focus();
+                    }
+                }
+            });
+
+            await loadMessages();
+            setInterval(loadMessages, 2000);
+
+        } catch (error) {
+            console.error('Error initializing chat:', error);
+            window.location.href = "https://yowl.ct.ws/authentication/";
+        }
+    }
+
+    initializeChat();
+</script>
+
+</body>
+</html>

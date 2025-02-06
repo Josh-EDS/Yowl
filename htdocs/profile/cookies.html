@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show All Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #cookiesList {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Cookies</h1>
+    <button onclick="showCookies()">Show Cookies</button>
+    <div id="cookiesList"></div>
+
+    <script>
+        function showCookies() {
+            let cookies = document.cookie; // Get cookies as a string
+            let cookiesDisplay = document.getElementById('cookiesList');
+            
+            if (cookies) {
+                cookiesDisplay.textContent = cookies;
+            } else {
+                cookiesDisplay.textContent = 'No cookies found.';
+            }
+        }
+    </script>
+</body>
+</html>

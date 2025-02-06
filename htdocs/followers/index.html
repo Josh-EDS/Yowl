@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="Zephir" /> 
+    <meta name="keywords" content="" /> 
+    <meta name="robots" content="" /> 
+	<meta name="description" content="Yowl - Your Online World Link"/>
+	<meta property="og:title" content="Yowl - Your Online World Link" />
+	<meta property="og:description" content="Yowl - Your Online World Link" />
+	<meta property="og:image" content="social-image.png"/>
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png" />
+    
+    <!-- Title -->
+	<title>Yowl - Your Online World Link</title>
+	
+	<!-- Stylesheets -->	
+	<link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>
+        .connections-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #ffa563;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffa563;
+        }
+
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .username {
+            font-weight: 500;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .name {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .follow-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #ffa563;
+            background: none;
+            color: #ffa563;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .follow-btn.following {
+            background-color: #ffa563;
+            color: white;
+        }
+
+        .follow-btn:hover {
+            background-color: #b16445;
+            border-color: #b16445;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>     
+<body class="bg-white">
+<div class="page-wraper header-fixed">
+    
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- Preloader end-->
+    
+	<!-- Header -->
+	<header class="header">
+		<div class="container">
+			<div class="main-bar">
+				<div class="left-content">
+					<a href="javascript:void(0);" class="back-btn">
+						<i class="fa-solid fa-arrow-left"></i>
+					</a>
+					<h4 class="title mb-0">Followers</h4>
+				</div>
+				<div class="mid-content">
+				</div>
+				<div class="right-content">
+				</div>
+			</div>
+		</div>
+	</header>
+    <!-- Header End -->
+	
+    <!-- Page Content -->
+    <div class="connections-container">
+        <div class="tab-container">
+            <div class="tab active" data-tab="followers">Followers</div>
+            <div class="tab" data-tab="following">Following</div>
+        </div>
+        <div id="userLists">
+            <!-- Lists will be populated here -->
+        </div>
+    </div>
+    <!-- Page Content End-->
+</div> 
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="/assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="/assets/js/settings.js"></script>
+<script src="/assets/js/custom.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script>
+        const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        let currentUsername = null;
+        let targetUsername = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePage();
+            setupTabListeners();
+        });
+
+        function setupTabListeners() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    loadConnections(tab.dataset.tab);
+                });
+            });
+        }
+
+        async function initializePage() {
+            currentUsername = getCookie('username');
+            targetUsername = getUrlParameter('username') || currentUsername;
+
+            if (!targetUsername) {
+                window.location.href = "/authentication/";
+                return;
+            }
+
+            document.title = `${targetUsername}'s Connections`;
+            await loadConnections('followers'); // Load initial tab
+        }
+
+        async function loadConnections(type) {
+            try {
+                const response = await axios.get(`${SUPABASE_URL}/rest/v1/follows`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    },
+                    params: {
+                        [type === 'followers' ? 'following_username' : 'follower_username']: `eq.${targetUsername}`
+                    }
+                });
+
+                const connections = response.data;
+                
+                if (connections.length === 0) {
+                    displayEmptyState(type);
+                    return;
+                }
+
+                const usernames = connections.map(c => 
+                    type === 'followers' ? c.follower_username : c.following_username
+                );
+
+                // Get user details
+                const usersResponse = await axios.get(`${SUPABASE_URL}/rest/v1/users`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    },
+                    params: {
+                        username: `in.(${usernames.join(',')})`
+                    }
+                });
+
+                // Get current user's following list
+                let currentUserFollowing = [];
+                if (currentUsername) {
+                    const followingResponse = await axios.get(`${SUPABASE_URL}/rest/v1/follows`, {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        },
+                        params: {
+                            follower_username: `eq.${currentUsername}`
+                        }
+                    });
+                    currentUserFollowing = followingResponse.data.map(f => f.following_username);
+                }
+
+                displayUsers(usersResponse.data, currentUserFollowing);
+
+            } catch (error) {
+                console.error('Error loading connections:', error);
+            }
+        }
+
+        function displayUsers(users, currentUserFollowing) {
+            const userLists = document.getElementById('userLists');
+            userLists.innerHTML = `
+                <div class="user-list">
+                    ${users.map(user => `
+                        <div class="user-card">
+                            <div class="user-info">
+                                <img src="${user.img_url || '/default-avatar.png'}" alt="${user.username}" class="user-avatar">
+                                <div class="user-details">
+                                    <a href="/profile/user/?username=${user.username}" class="username">@${user.username}</a>
+                                    <span class="name">${user.name || ''}</span>
+                                </div>
+                            </div>
+                            ${currentUsername && currentUsername !== user.username ? `
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function displayEmptyState(type) {
+            const userLists = document.getElementById('userLists');
+            userLists.innerHTML = `
+                <div class="empty-state">
+                    <p>No ${type} yet</p>
+                </div>
+            `;
+        }
+
+async function toggleFollow(targetUsername) {
+    if (!currentUsername) {
+        window.location.href = "/authentication/";
+        return;
+    }
+
+    const button = document.querySelector(`button[data-username="${targetUsername}"]`);
+    const isFollowing = button.classList.contains('following');
+
+    try {
+        if (isFollowing) {
+            // Unfollow
+            await axios({
+                method: 'DELETE',
+                url: `${SUPABASE_URL}/rest/v1/follows`,
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                },
+                params: {
+                    follower_username: `eq.${currentUsername}`,
+                    following_username: `eq.${targetUsername}`
+                }
+            });
+
+            button.classList.remove('following');
+            button.textContent = 'Follow';
+
+        } else {
+            // Follow
+            await axios({
+                method: 'POST',
+                url: `${SUPABASE_URL}/rest/v1/follows`,
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    follower_username: currentUsername,
+                    following_username: targetUsername
+                }
+            });
+
+            button.classList.add('following');
+            button.textContent = 'Following';
+        }
+    } catch (error) {
+        console.error('Error toggling follow:', error);
+        alert('Error updating follow status. Please try again.');
+    }
+}
+
+        function getUrlParameter(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+    </script>
+</html>
