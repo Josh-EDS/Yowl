@@ -7,6 +7,7 @@
     <title>Messages Privés</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -428,7 +429,7 @@
 
         button[type="submit"]:hover {
 
-            background: #1877f2;
+            background: #fe6c30;
 
         }
 
@@ -631,133 +632,223 @@
 </body>
 
 <script>
-    const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
-    
-    let currentChat = null;
-    let currentUsername = getCookie('username');
-    let pollingInterval = null;
+const SUPABASE_URL = 'https://rxacwdemlmdgkbcfpgfy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YWN3ZGVtbG1kZ2tiY2ZwZ2Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNzk5MzUsImV4cCI6MjA1Mjk1NTkzNX0.sWK8Ku0QLPawq4abxgmF0X0v7orWD4vrmXgDn32esQk';
 
-    function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+let currentChat = null;
+let currentUsername = getCookie('username');
+let pollingInterval = null;
+
+// Request notification permission
+async function requestNotificationPermission() {
+    if ('Notification' in window) {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            registerServiceWorker();
         }
-        return null;
     }
+}
 
-    // Fonction pour charger les contacts
-    async function loadContacts() {
+// Register service worker
+async function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
         try {
-            const [followsResponse, messagesResponse] = await Promise.all([
-                axios.get(
-                    `${SUPABASE_URL}/rest/v1/follows?follower_username=eq.${currentUsername}&select=following_username`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                ),
-                axios.get(
-                    `${SUPABASE_URL}/rest/v1/private_messages?or=(sender_username.eq.${currentUsername},receiver_username.eq.${currentUsername})&order=created_at.desc`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                )
-            ]);
-
-            const usersResponse = await axios.get(
-                `${SUPABASE_URL}/rest/v1/users?select=username,img_url`,
-                {
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`
-                    }
-                }
-            );
-
-            const usersMap = new Map(usersResponse.data.map(user => [user.username, user]));
-            const contacts = followsResponse.data;
-            const messages = messagesResponse.data;
-
-            const lastMessages = new Map();
-            messages.forEach(message => {
-                const otherUser = message.sender_username === currentUsername ? 
-                    message.receiver_username : message.sender_username;
-                if (!lastMessages.has(otherUser)) {
-                    lastMessages.set(otherUser, message);
-                }
-            });
-
-            const contactsList = document.getElementById('contacts-list');
-            contactsList.innerHTML = contacts.map(contact => {
-                const user = usersMap.get(contact.following_username);
-                const lastMessage = lastMessages.get(contact.following_username);
-                const defaultAvatar = 'https://yowl.ct.ws/assets/images/icon.png';
-                
-                return `
-                    <div class="contact-item" onclick="openChat('${contact.following_username}')">
-                        <img class="contact-avatar" 
-                             src="${user?.img_url || defaultAvatar}" 
-                             alt="${contact.following_username}"
-                             onerror="this.src='${defaultAvatar}'">
-                        <div class="contact-info">
-                            <div class="contact-name">${contact.following_username}</div>
-                            <div class="contact-last-message">
-                                ${lastMessage ? lastMessage.message : 'Commencer une conversation'}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            const registration = await navigator.serviceWorker.register('/service-worker.js');
+            console.log('ServiceWorker registration successful');
+            return registration;
         } catch (error) {
-            console.error('Error loading contacts:', error);
+            console.log('ServiceWorker registration failed:', error);
         }
     }
+}
 
-    // Fonction pour ouvrir un chat
-    async function openChat(username) {
-        currentChat = username;
-        
-        try {
-            const userResponse = await axios.get(
-                `${SUPABASE_URL}/rest/v1/users?username=eq.${username}&select=username,img_url`,
+// Notify user function
+function notifyUser(message, sender) {
+    if (Notification.permission === 'granted' && document.hidden) {
+        new Notification('New Message', {
+            body: `${sender}: ${message}`,
+            icon: 'https://yowl.ct.ws/assets/images/icon.png'
+        });
+    }
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+async function loadContacts() {
+    try {
+        const [followsResponse, messagesResponse] = await Promise.all([
+            axios.get(
+                `${SUPABASE_URL}/rest/v1/follows?follower_username=eq.${currentUsername}&select=following_username`,
                 {
                     headers: {
                         'apikey': SUPABASE_KEY,
                         'Authorization': `Bearer ${SUPABASE_KEY}`
                     }
                 }
-            );
+            ),
+            axios.get(
+                `${SUPABASE_URL}/rest/v1/private_messages?or=(sender_username.eq.${currentUsername},receiver_username.eq.${currentUsername})&order=created_at.desc`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            )
+        ]);
 
-            const user = userResponse.data[0];
+        const usersResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/users?select=username,img_url`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const usersMap = new Map(usersResponse.data.map(user => [user.username, user]));
+        const contacts = followsResponse.data;
+        const messages = messagesResponse.data;
+
+        const lastMessages = new Map();
+        messages.forEach(message => {
+            const otherUser = message.sender_username === currentUsername ? 
+                message.receiver_username : message.sender_username;
+            if (!lastMessages.has(otherUser)) {
+                lastMessages.set(otherUser, message);
+            }
+        });
+
+        const contactsList = document.getElementById('contacts-list');
+        contactsList.innerHTML = contacts.map(contact => {
+            const user = usersMap.get(contact.following_username);
+            const lastMessage = lastMessages.get(contact.following_username);
             const defaultAvatar = 'https://yowl.ct.ws/assets/images/icon.png';
             
-            document.getElementById('chat-header-avatar').src = user?.img_url || defaultAvatar;
-            document.getElementById('chat-header').textContent = username;
-        } catch (error) {
-            console.error('Error loading user data:', error);
-        }
+            return `
+                <div class="contact-item" onclick="openChat('${contact.following_username}')">
+                    <img class="contact-avatar" 
+                         src="${user?.img_url || defaultAvatar}" 
+                         alt="${contact.following_username}"
+                         onerror="this.src='${defaultAvatar}'">
+                    <div class="contact-info">
+                        <div class="contact-name">${contact.following_username}</div>
+                        <div class="contact-last-message">
+                            ${lastMessage ? lastMessage.message : 'Commencer une conversation'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } catch (error) {
+        console.error('Error loading contacts:', error);
+    }
+}
 
-        document.getElementById('message-form').style.display = 'block';
-        document.body.classList.add('chat-open');
+async function openChat(username) {
+    currentChat = username;
+    
+    try {
+        const userResponse = await axios.get(
+            `${SUPABASE_URL}/rest/v1/users?username=eq.${username}&select=username,img_url`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const user = userResponse.data[0];
+        const defaultAvatar = 'https://yowl.ct.ws/assets/images/icon.png';
         
-        await loadMessages(username);
-        setupRealtimeMessages();
+        document.getElementById('chat-header-avatar').src = user?.img_url || defaultAvatar;
+        document.getElementById('chat-header').textContent = username;
+    } catch (error) {
+        console.error('Error loading user data:', error);
     }
 
-    // Fonction pour charger les messages
-    async function loadMessages(username) {
+    document.getElementById('message-form').style.display = 'block';
+    document.body.classList.add('chat-open');
+    
+    await loadMessages(username);
+    setupRealtimeMessages();
+}
+
+async function loadMessages(username) {
+    try {
+        const response = await axios.get(
+            `${SUPABASE_URL}/rest/v1/private_messages?or=(and(sender_username.eq.${currentUsername},receiver_username.eq.${username}),and(sender_username.eq.${username},receiver_username.eq.${currentUsername}))&order=created_at.asc`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const messagesContainer = document.getElementById('messages-container');
+        messagesContainer.innerHTML = response.data.map(message => `
+            <div class="message ${message.sender_username === currentUsername ? 'sent' : 'received'}">
+                <div class="message-content">${message.message}</div>
+                <div class="message-time">
+                    ${new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                </div>
+            </div>
+        `).join('');
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    } catch (error) {
+        console.error('Error loading messages:', error);
+    }
+}
+
+async function sendMessage(message) {
+    try {
+        await axios.post(
+            `${SUPABASE_URL}/rest/v1/private_messages`,
+            {
+                sender_username: currentUsername,
+                receiver_username: currentChat,
+                message: message
+            },
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                }
+            }
+        );
+        await loadMessages(currentChat);
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+}
+
+function setupRealtimeMessages() {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+    }
+
+    let lastMessageTimestamp = new Date().toISOString();
+
+    pollingInterval = setInterval(async () => {
         try {
+            // Check for new messages for the current user
             const response = await axios.get(
-                `${SUPABASE_URL}/rest/v1/private_messages?or=(and(sender_username.eq.${currentUsername},receiver_username.eq.${username}),and(sender_username.eq.${username},receiver_username.eq.${currentUsername}))&order=created_at.asc`,
+                `${SUPABASE_URL}/rest/v1/private_messages?receiver_username=eq.${currentUsername}&created_at=gt.${lastMessageTimestamp}&order=created_at.desc`,
                 {
                     headers: {
                         'apikey': SUPABASE_KEY,
@@ -766,90 +857,108 @@
                 }
             );
 
-            const messagesContainer = document.getElementById('messages-container');
-            messagesContainer.innerHTML = response.data.map(message => `
-                <div class="message ${message.sender_username === currentUsername ? 'sent' : 'received'}">
-                    <div class="message-content">${message.message}</div>
-                    <div class="message-time">
-                        ${new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                    </div>
-                </div>
-            `).join('');
-
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        } catch (error) {
-            console.error('Error loading messages:', error);
-        }
-    }
-
-    // Fonction pour envoyer un message
-    async function sendMessage(message) {
-        try {
-            await axios.post(
-                `${SUPABASE_URL}/rest/v1/private_messages`,
-                {
-                    sender_username: currentUsername,
-                    receiver_username: currentChat,
-                    message: message
-                },
-                {
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    }
+            if (response.data.length > 0) {
+                // Update chat if it's open
+                if (currentChat) {
+                    loadMessages(currentChat);
                 }
-            );
-            // Reload messages immediately after sending
-            await loadMessages(currentChat);
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
-    }
 
-    // Real-time setup using polling
-    function setupRealtimeMessages() {
-        // Clear existing interval if any
-        if (pollingInterval) {
-            clearInterval(pollingInterval);
-        }
+                // Show notifications for new messages
+                response.data.forEach(message => {
+                    if (message.sender_username !== currentUsername) {
+                        showNotification(message.sender_username, message.message);
+                    }
+                });
 
-        // Set up new polling interval
-        pollingInterval = setInterval(() => {
-            if (currentChat) {
-                loadMessages(currentChat);
+                lastMessageTimestamp = response.data[0].created_at;
             }
-        }, 1000); // Poll every second
+        } catch (error) {
+            console.error('Error checking for new messages:', error);
+        }
+    }, 5000); // Check every 5 seconds
+}
+
+// Add these new notification functions
+async function requestNotificationPermission() {
+    if (!('Notification' in window)) {
+        console.log('This browser does not support notifications');
+        return;
     }
 
-    function cleanupRealtimeMessages() {
-        if (pollingInterval) {
-            clearInterval(pollingInterval);
-            pollingInterval = null;
-        }
+    try {
+        const permission = await Notification.requestPermission();
+        console.log('Notification permission:', permission);
+        return permission;
+    } catch (error) {
+        console.error('Error requesting notification permission:', error);
     }
+}
 
-    // Event Listeners
-    document.getElementById('message-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const input = document.getElementById('message-input');
-        const message = input.value.trim();
-        
-        if (message && currentChat) {
-            await sendMessage(message);
-            input.value = '';
+function showNotification(sender, message) {
+    console.log('Attempting to show notification'); // Debug log
+
+    // Check if the page is hidden or in background
+    if (document.hidden && Notification.permission === 'granted') {
+        try {
+            const notification = new Notification('New Message from ' + sender, {
+                body: message,
+                icon: 'https://yowl.ct.ws/assets/images/icon.png',
+                tag: 'message-notification', // Prevents duplicate notifications
+                requireInteraction: true // Notification will stay until user interacts with it
+            });
+
+            notification.onclick = function() {
+                window.focus();
+                this.close();
+            };
+
+            console.log('Notification shown successfully'); // Debug log
+        } catch (error) {
+            console.error('Error showing notification:', error);
         }
-    });
+    } else {
+        console.log('Notification not shown:', {
+            hidden: document.hidden,
+            permission: Notification.permission
+        }); // Debug log
+    }
+}
 
-    document.querySelector('.back-button').addEventListener('click', () => {
-        document.body.classList.remove('chat-open');
-        cleanupRealtimeMessages();
-        currentChat = null;
-    });
+// Initialize notifications when the page loads
+document.addEventListener('DOMContentLoaded', async () => {
+    const permission = await requestNotificationPermission();
+    console.log('Initial notification permission:', permission);
+});
 
-    // Load contacts on startup
-    loadContacts();
+function cleanupRealtimeMessages() {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+    }
+}
+
+// Event Listeners
+document.getElementById('message-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('message-input');
+    const message = input.value.trim();
+    
+    if (message && currentChat) {
+        await sendMessage(message);
+        input.value = '';
+    }
+});
+
+document.querySelector('.back-button').addEventListener('click', () => {
+    document.body.classList.remove('chat-open');
+    cleanupRealtimeMessages();
+    currentChat = null;
+});
+
+// Initialize
+requestNotificationPermission();
+loadContacts();
+
 </script>
 
 

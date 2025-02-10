@@ -32,7 +32,211 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            min-height: 100vh;
+        }
+
+        .stories-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .stories-header {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 0;
+            gap: 15px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .stories-header::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story-avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .avatar-container {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584);
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+            background-color: #fafafa;
+        }
+
+        .story-username {
+            margin-top: 5px;
+            font-size: 12px;
+            text-align: center;
+            max-width: 64px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #262626;
+        }
+
+        .story-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .story-content {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+        }
+
+        .story-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .story-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .story-navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #405de6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .story-progress {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1002;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .story-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            color: white;
+            z-index: 1002;
+        }
+
+        .story-header img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid white;
+        }
+
+        .story-header .username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .story-timestamp {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 10px;
+        }
+
+        .no-stories {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            width: 100%;
+        }
+    </style>
 </head>   
 <body class="bg-gradient-2">
 <div class="page-wraper header-fixed">
@@ -155,6 +359,8 @@
                     </span>					
                     <span>Go to settings</span>					
                 </a>
+            <p style="padding: 0 0cm 0.01cm 0"></p>
+            <button type="button" class="btn btn-sm pwa-close light btn-secondary ms-2">Customize your choices</button>
             </li>
             
 		</ul>
@@ -172,98 +378,26 @@
 			
 				<!-- STORY -->
 				<div class="author-notification mb-4">
-					<div class="swiper-btn-center-lr my-0">
-						<div class="swiper-container categorie-swiper">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box style-1">
-										<div class="story-bx">
-											<img src="assets/images/stories/small/profilepic.jpg" alt="/">
-											<div class="add-box">
-												<i class="fa-solid fa-plus"></i>
-											</div>
-										</div>
-										<span class="detail">Your Story</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="live-story.html" class="categore-box">
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic1.jpg" alt="/">
-											<div class="live-text">Live</div>
-										</div>
-										<span class="detail">Emilia</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box">
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic2.jpg" alt="/">
-										</div>
-										<span  class="detail">Richard</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box">
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic3.jpg" alt="/">
-										</div>
-										<span  class="detail">Jasmine</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic4.jpg" alt="/">
-										</div>
-										<span  class="detail">Lucas</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic5.jpg" alt="/">
-										</div>
-										<span  class="detail">Hendri</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic6.jpg" alt="/">
-										</div>
-										<span  class="detail">Carla</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="live-story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic7.jpg" alt="/">
-											<div class="live-text">Live</div>
-										</div>
-										<span  class="detail">Jermy</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic5.jpg" alt="/">
-										</div>
-										<span  class="detail">Kerry</span>
-									</a>
-								</div>
-								<div class="swiper-slide">
-									<a href="story.html" class="categore-box" >
-										<div class="story-bx">
-											<img src="assets/images/stories/small/pic6.jpg" alt="/">
-										</div>
-										<span  class="detail">Perry</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="stories-header" id="storiesHeader">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
 				</div>
+                <div class="story-viewer" id="storyViewer">
+                    <div class="story-progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="story-header" id="storyHeader"></div>
+                    <div class="story-content">
+                        <img id="storyImage" class="story-image" src="" alt="Story">
+                        <div class="story-close" onclick="closeStory()">×</div>
+                        <div class="story-navigation">
+                            <button class="nav-button" onclick="navigateStory(-1)">←</button>
+                            <button class="nav-button" onclick="navigateStory(1)">→</button>
+                        </div>
+                    </div>
+                 </div>
 				<!-- STORY -->
 			</div>    
 		</div>
@@ -705,7 +839,255 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error during initial load:', error);
     }
 });
+</script>
+<script>
+    ////////////////////////////////////////////////////////////////////////////////////////////// STORIES ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+    let storiesByUser = {};
+    let currentStories = [];
+    let currentStoryIndex = 0;
+    let currentUserIndex = 0;
+    let progressInterval;
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function checkAuth() {
+        const username = getCookie('username');
+        if (!username) {
+            window.location.href = '/authentication';
+        }
+        return username;
+    }
+
+    async function fetchStoriesFromFollowing() {
+        try {
+            const username = checkAuth();
+            
+            // Get users that the current user follows
+            const followingResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/follows?follower_username=eq.${username}&select=following_username`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const following = followingResponse.data.map(f => f.following_username);
+            
+            if (following.length === 0) {
+                document.getElementById('storiesHeader').innerHTML = 
+                    '<div class="no-stories">Follow users to see their stories</div>';
+                return {};
+            }
+
+            // Get active stories from followed users
+            const storiesResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/stories?expires_at=gt.${new Date().toISOString()}&username=in.(${following.join(',')})`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            // Get user data for all users with stories
+            const usersResponse = await axios.get(
+                `${SUPABASE_URL}/rest/v1/users?username=in.(${following.join(',')})`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                }
+            );
+
+            const userData = usersResponse.data.reduce((acc, user) => {
+                acc[user.username] = user;
+                return acc;
+            }, {});
+
+            // Group stories by user and add user data
+            storiesByUser = storiesResponse.data.reduce((acc, story) => {
+                if (!acc[story.username]) {
+                    acc[story.username] = [];
+                }
+                story.user_img_url = userData[story.username]?.img_url;
+                acc[story.username].push(story);
+                return acc;
+            }, {});
+
+            displayStoriesHeader(storiesByUser);
+            return storiesByUser;
+        } catch (error) {
+            console.error('Error fetching stories:', error);
+            return {};
+        }
+    }
+
+    function displayStoriesHeader(stories) {
+        const storiesHeader = document.getElementById('storiesHeader');
+        storiesHeader.innerHTML = '';
+
+        // Add Create Story button
+        const createStoryButton = document.createElement('div');
+        createStoryButton.className = 'story-avatar';
+        createStoryButton.onclick = () => window.location.href = '/post';
+        
+        // Get the current user's username and img_url from cookies
+        const currentUsername = getCookie('username');
+        const userImgUrl = getCookie('img_url') || '/default-avatar.png';
+        
+        createStoryButton.innerHTML = `
+            <div class="avatar-container" style="background: #e4e4e4; position: relative;">
+                <img class="avatar-img" src="${userImgUrl}" alt="Create Story">
+                <div style="position: absolute; bottom: -2px; right: -2px; 
+                            background: #0095f6; width: 20px; height: 20px; 
+                            border-radius: 50%; display: flex; align-items: center; 
+                            justify-content: center; color: white; font-weight: bold;
+                            border: 2px solid white; font-size: 14px;">+</div>
+            </div>
+            <span class="story-username">Your story</span>
+        `;
+        storiesHeader.appendChild(createStoryButton);
+
+        if (Object.keys(stories).length === 0) {
+            if (!currentUsername) {
+                storiesHeader.innerHTML = '<div class="no-stories">No stories available</div>';
+            }
+            return;
+        }
+
+        // Display other stories
+        Object.entries(stories).forEach(([username, userStories]) => {
+            const storyAvatar = document.createElement('div');
+            storyAvatar.className = 'story-avatar';
+            storyAvatar.onclick = () => openStories(username);
+
+            storyAvatar.innerHTML = `
+                <div class="avatar-container">
+                    <img class="avatar-img" src="${userStories[0].user_img_url || '/default-avatar.png'}" alt="${username}">
+                </div>
+                <span class="story-username">${username}</span>
+            `;
+
+            storiesHeader.appendChild(storyAvatar);
+        });
+    }
+
+
+    function startProgressBar() {
+        const progressBar = document.getElementById('progressBar');
+        let width = 0;
+        
+        clearInterval(progressInterval);
+        progressBar.style.width = '0%';
+        
+        progressInterval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(progressInterval);
+                navigateStory(1);
+            } else {
+                width += 0.1;
+                progressBar.style.width = width + '%';
+            }
+        }, 10);
+    }
+
+    function openStories(username) {
+        currentStories = storiesByUser[username];
+        currentStoryIndex = 0;
+        showStory();
+        document.getElementById('storyViewer').style.display = 'flex';
+    }
+
+    function closeStory() {
+        document.getElementById('storyViewer').style.display = 'none';
+        clearInterval(progressInterval);
+    }
+
+    function showStory() {
+        if (currentStories?.length > 0) {
+            const story = currentStories[currentStoryIndex];
+            document.getElementById('storyImage').src = story.img_url;
+            
+            document.getElementById('storyHeader').innerHTML = `
+                <img src="${story.user_img_url || '/default-avatar.png'}" alt="${story.username}">
+                <span class="username">${story.username}</span>
+                <span class="story-timestamp">${formatTimeAgo(story.created_at)}</span>
+            `;
+            
+            startProgressBar();
+            incrementStoryViews(story.id);
+        }
+    }
+
+    async function incrementStoryViews(storyId) {
+        try {
+            await axios.post(
+                `${SUPABASE_URL}/rest/v1/stories`,
+                { id: storyId, views: 1 },
+                {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'resolution=merge-duplicates'
+                    }
+                }
+            );
+        } catch (error) {
+            console.error('Error incrementing views:', error);
+        }
+    }
+
+    function navigateStory(direction) {
+        clearInterval(progressInterval);
+        currentStoryIndex += direction;
+        
+        if (currentStoryIndex >= currentStories.length) {
+            // Move to next user's stories
+            const usernames = Object.keys(storiesByUser);
+            currentUserIndex = (currentUserIndex + 1) % usernames.length;
+            const nextUsername = usernames[currentUserIndex];
+            currentStories = storiesByUser[nextUsername];
+            currentStoryIndex = 0;
+        } else if (currentStoryIndex < 0) {
+            // Move to previous user's stories
+            const usernames = Object.keys(storiesByUser);
+            currentUserIndex = (currentUserIndex - 1 + usernames.length) % usernames.length;
+            const prevUsername = usernames[currentUserIndex];
+            currentStories = storiesByUser[prevUsername];
+            currentStoryIndex = currentStories.length - 1;
+        }
+
+        showStory();
+    }
+
+    function formatTimeAgo(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        
+        if (hours === 0) {
+            const minutes = Math.floor(diff / (1000 * 60));
+            return `${minutes}m ago`;
+        }
+        return `${hours}h ago`;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', fetchStoriesFromFollowing);
+
+    // Refresh stories every minute
+    setInterval(fetchStoriesFromFollowing, 60000);
 </script>
 <script> // COOKIES CNIL !
 function getCookie(name) {
